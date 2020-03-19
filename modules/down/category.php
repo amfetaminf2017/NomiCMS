@@ -20,7 +20,7 @@ if(User::aut()){
 	if(isset($_GET['d'])){
 		if(User::level() >= 3){
 
-			if(isset($_REQUEST['submit'])){
+			if(filter_has_var(INPUT_POST, 'submit')){
 				$name = $db->guard($_POST['name']);
 				$whitelist = $db->guard($_POST['whitelist']);
 				$max_size = $db->guard($_POST['max_size']);
@@ -40,13 +40,13 @@ if(User::aut()){
 
 			$tmp->div('main', '<form action="" method="post">
 '.Language::config('name').':<br/>
-<input name="name" value="'.out($_POST['name']) .'" /><br />
+<input name="name" value="'. (!empty($_POST['name']) ? out($_POST['name']) : null) .'" /><br />
 '.Language::config('whitelist').' (напр. zip;rar;txt):<br>
-<div class="form_info"><input name="whitelist" value="'.out($_POST['whitelist']) .'" />
+<div class="form_info"><input name="whitelist" value="'. (!empty($_POST['whitelist']) ? out($_POST['whitelist']) : null) .'" />
 <br>'.img('f_info.png').' если не заполнять, будут разрешены все типы файлов</div>
 '.Language::config('max_size_z').' :<br/>
 <div class="form_info">
-<input type="number" name="max_size" style="width: 40px" value="'.out($_POST['max_size']) .'" />
+<input type="number" name="max_size" style="width: 40px" value="'. (!empty($_POST['max_size']) ? out($_POST['max_size']) : null) .'" />
 <br>'.img('f_info.png').' если не заполнять, размер будет установлен по умолчанию (10Мб)</div>
 <input id="hide_file" type="checkbox" name="hide_file" value="yes">
 <label for="hide_file">'.Language::config('hide_files').'</label>
@@ -97,4 +97,3 @@ echo '</div>';
 page('?');
 
 $tmp->back('zc');
-?>
